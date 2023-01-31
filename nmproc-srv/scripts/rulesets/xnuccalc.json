@@ -1,0 +1,20 @@
+[
+   {
+      "name":"Coil reference FIDs",
+      "destination":"xnuccalc/{isotime}/{ProtocolName}_{InstanceNumber}.dcm",
+      "requirement":"n>3",
+      "action":"mv",
+      "tests": [
+            "dicom(ProtocolName):regex(^.*(fid_[0-9]{1,3}V).*$)"
+      ]
+   },
+   {
+      "name":"Study info JSON",
+      "destination":"xnuccalc/{isotime}/{filename}",
+      "requirement":"n=1",
+      "action":"mv",
+      "tests": [
+            "fileinfo(filename):regex((studyinfo\\.json))"
+      ]
+   }
+]

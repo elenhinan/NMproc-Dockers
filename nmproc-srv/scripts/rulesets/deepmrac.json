@@ -1,0 +1,29 @@
+[
+   {
+      "name":"Siemens mMR MRAC/UTE",
+      "destination":"DeepMRAC/UTE/{isotime}/{SeriesNumber}-{SeriesDescription}/{InstanceNumber:05d}.dcm",
+      "requirement":"n=384",
+      "action":"mv",
+      "tests": [
+            "dicom(SeriesDescription):regex(^Head_MRAC_UTE$)"
+      ]
+   },
+   {
+      "name":"Siemens mMR UMAP",
+      "destination":"DeepMRAC/UTE/{isotime}/{SeriesNumber}-{SeriesDescription}/{InstanceNumber:05d}.dcm",
+      "requirement":"n=192",
+      "action":"mv",
+      "tests": [
+            "dicom(SeriesDescription):regex(^Head_MRAC_UTE_UMAP$)"
+      ]
+   },
+   {
+      "name":"Study info JSON",
+      "destination":"DeepMRAC/UTE/{isotime}/{filename}",
+      "requirement":"n=1",
+      "action":"mv",
+      "tests": [
+            "fileinfo(filename):regex((studyinfo\\.json))"
+      ]
+   }
+]

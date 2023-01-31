@@ -1,0 +1,19 @@
+[
+      {
+            "name":"DICOM-general",
+            "destination":"{Local_AET}/{relpath0}/{SeriesNumber}-{Modality}-{SeriesDescription}/{InstanceNumber:05d}.dcm",
+            "action":"mv",
+            "tests": [
+                  "fileinfo(isDicom):bool(False)"
+            ]
+      },
+      {
+            "name":"Study info JSON",
+            "destination":"DeepMRAC/UTE/{isotime}/{filename}",
+            "requirement":"n=1",
+            "action":"mv",
+            "tests": [
+                  "fileinfo(filename):regex((studyinfo\\.json))"
+            ]
+      }
+]

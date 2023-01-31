@@ -1,0 +1,68 @@
+version: "3.8"
+
+volumes:
+   xnuccalc_db:
+
+secrets:
+   orthanc.json:
+      file: orthanc/orthanc.json
+
+services:
+   xnuccalc:
+      container_name: xnuc
+      build:
+         context: ./xnuccalc
+         args:
+            - http_proxy=$http_proxy
+            - https_proxy=$https_proxy
+      environment:
+         - http_proxy=$http_proxy
+         - https_proxy=$https_proxy
+      restart: always
+      ports:
+         - 443:80
+      volumes:
+         - xnuccalc_db:/data/
+
+   dicom-node:
+      container_name: dicom-node
+      build:
+         context: ./nmproc-srv
+         args:
+            - http_proxy=$http_proxy
+            - https_proxy=$https_proxy
+      restart: always
+      ports:
+         - 11112:11112
+      volumes:
+         - /mnt/scratch/NMPROC:/data
+      dns_search: medtek.hbe.med.nvsl.no
+
+   xnuccalc2:
+      container_name: xnuccalc2
+      build:
+         context: ./xnuccalc2
+         args:
+            - http_proxy=$http_proxy
+            - https_proxy=$https_proxy
+      restart: always
+      volumes:
+         - /mnt/scratch/NMPROC/xnuccalc:/data
+      dns_search: medtek.hbe.med.nvsl.no
+   
+   deepmrac:
+      container_name: deepmrac
+      deploy:
+         resources:
+            reservations:
+               devices:
+                  - capabilities: [gpu]
+      build:
+         context: ./deepmrac
+         args:
+            - http_proxy=$http_proxy
+            - https_proxy=$https_proxy
+      restart: always
+      volumes:
+         - /mnt/scratch/NMPROC/DeepMRAC:/data
+      dns_search: medtek.hbe.med.nvsl.no
